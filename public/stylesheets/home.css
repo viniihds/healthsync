@@ -1,0 +1,103 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    border-bottom: 1px solid #ccc;
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    padding: 40px;
+    justify-content: space-around;
+}
+
+.section {
+    width: 45%;
+}
+
+.section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.pending h2 {
+    color: orange;
+}
+
+.scheduled h2 {
+    color: #337ab7;
+}
+
+.medication {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.medication i {
+    margin-right: 10px;
+}
+
+.medication span {
+    color: #333;
+}
+
+.pending .medication span {
+    color: orange;
+}
+
+.scheduled .medication span {
+    color: green;
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination span {
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.pagination .active {
+    font-weight: bold;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    border: 2px solid #337ab7;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-weight: bold;
+    color: #337ab7;
+    font-size: 20px;
+}
+
+.logo-text {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.green {
+    color: #3cba54;
+}
