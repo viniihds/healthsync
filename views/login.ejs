@@ -9,29 +9,29 @@
 <body>
 <div class="container">
     <div class="logo">
-        <span class="plus">+</span> <span class="title">Health<span class="sync">Sync</span></span>
+        <img src="/images/logo.png" alt="Our logomark"/>
     </div>
     <div class="form-container">
         <div class="login">
             <h2>Login</h2>
-            <form>
+            <form action="/login" method="POST">
                 <label>E-mail</label>
-                <input type="email" placeholder="Enter email">
+                <input type="email" placeholder="Enter email" name="email" alt="email field">
                 <label>Password</label>
-                <input type="password" placeholder="Enter password">
+                <input type="password" placeholder="Enter password" name="password" alt="password field">
                 <button type="submit">Login</button>
             </form>
         </div>
         <div class="divider"></div>
         <div class="signup">
             <h2>Sign up</h2>
-            <form>
+            <form action="/register" method="POST">
                 <label>Name</label>
-                <input type="text" placeholder="Enter name">
+                <input type="text" placeholder="Enter name" name="name">
                 <label>E-mail</label>
-                <input type="email" placeholder="Enter email">
+                <input type="email" placeholder="Enter email" name="email" alt="email field">
                 <label>Password</label>
-                <input type="password" placeholder="Enter password">
+                <input type="password" placeholder="Enter password" name="password" alt="password field">
                 <button type="submit">Sign up</button>
             </form>
         </div>

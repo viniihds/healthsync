@@ -1,34 +1,31 @@
 const { dbConnection } = require("../../db");
 
 const createUser = async user => {
-    const connection = await dbConnection();
-    const userExists = await checkIfExists(user);
+    const conn = await dbConnection();
+    const userExists = await checkIfExists(user.email, conn);
 
     if (userExists) {
-        return false;
+        return `User with email: ${user.email} already exists`;
     }
 
     try {
         const sql = 'INSERT INTO USER (NMUSER, EMAIL, PASSWORD) VALUES (?, ?, ?);';
-        const [newUser] = await connection.query(sql, [user.name, user.email, user.password]);
+        const [newUser] = await conn.query(sql, [user.name, user.email, user.password]);
 
-        return newUser ?? false;
+        return newUser;
+    } catch (error) {
+        console.error('Error while crating user, Error:', error);
+        throw error;
     } finally {
-        await connection.end();
+        await conn.end();
     }
 }
 
-const checkIfExists = async (user) => {
-    const connection = await dbConnection();
+const checkIfExists = async (email, conn) => {
+    const sql = 'SELECT 1 FROM USER WHERE EMAIL = ?'
+    const [userFound] = await conn.query(sql, [email]);
 
-    try {
-        const sql = 'SELECT 1 FROM USER WHERE EMAIL = ?'
-        const [userFound] = await connection.query(sql, [email]);
-
-        return userFound.length > 0;
-    } finally {
-        connection.end()
-    }
+    return userFound.length > 0;
 }
 
 module.exports = { createUser };

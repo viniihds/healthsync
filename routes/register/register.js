@@ -7,16 +7,16 @@ router.get('/', (req, res, next) => {
     res.render('index');
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', async(req, res, next) => {
     const user = req.body;
 
-    const createdUser = await createUser({ user });
+    const createdUser = await createUser(user);
 
-    if (!createdUser) {
-        return res.status(400).json({ message: 'Error creating user' });
+    if (typeof createdUser == 'string' || !createdUser) {
+        return res.status(400).json({ message: createdUser });
     }
 
-    res.render('index');
+    res.redirect('home');
 })
 
 module.exports = router;
