@@ -3,8 +3,9 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-// const session = require('express-session');
-// const bcrypt = require('bcrypt');
+const session = require('express-session');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const loginRouter = require('./routes/login');
 const homeRouter = require('./routes/home');
