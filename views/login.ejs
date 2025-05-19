@@ -15,6 +15,7 @@
         <div class="login">
             <h2>Login</h2>
             <form action="/login" method="POST">
+                <input type="hidden" name="type" id="type" value="1">
                 <label>E-mail</label>
                 <input type="email" placeholder="Enter email" name="email" alt="email field">
                 <label>Password</label>
@@ -25,7 +26,8 @@
         <div class="divider"></div>
         <div class="signup">
             <h2>Sign up</h2>
-            <form action="/register" method="POST">
+            <form action="/login" method="POST">
+                <input type="hidden" name="type" id="type" value="2">
                 <label>Name</label>
                 <input type="text" placeholder="Enter name" name="name">
                 <label>E-mail</label>

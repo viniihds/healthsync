@@ -1,4 +1,4 @@
-Alunos: Vinicius Henrique da Silva, Guilherme Tamanini e Murilo
+Alunos: Vinicius Henrique da Silva, Guilherme Tamanini
 
 Comando para iniciar: npm run dev
 
