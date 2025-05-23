@@ -1,4 +1,7 @@
 const {dbConnection} = require('../db');
+// const bcrypt = require('bcrypt');
+// const jwt = require('jsonwebtoken');
+// const { JWT_SECRET } = require("./SessionUtils");
 
 const checkIfExists = async (email, conn) => {
     const sql = 'SELECT 1 FROM USERS WHERE EMAIL = ?'
@@ -15,10 +18,18 @@ const getUser = async ({ email, password }) => {
     }
 
     try {
-        const sql = 'SELECT CDUSER, NMUSER, PASSWORD FROM USERS WHERE EMAIL = ? AND PASSWORD = ?';
-        const [userFound] = await connection.query(sql, [email, password]);
+        const sql = 'SELECT CDUSER, NMUSER, PASSWORD FROM USERS WHERE EMAIL = ?';
+        const [userFound] = await connection.query(sql, [email]);
 
-        return userFound;
+        if (!userFound) {
+            return;
+        }
+
+        const validPassword = await bcrypt.compare(password, userFound.at().PASSWORD);
+
+        if (!validPassword) return 'Senha incorreta';
+
+        return { userFound: userFound, token: jwt.sign({ id: email, username: userFound.NMUSER }, JWT_SECRET, { expiresIn: '1h' }) };
     } finally {
         await connection.end();
     }
@@ -33,8 +44,9 @@ const createUser = async ({ email, name, password }) => {
     }
 
     try {
-        const sql = 'INSERT INTO USERS (NMUSER, EMAIL, PASSWORD, CELLPHONE) VALUES (?, ?, ?, NULL);';
-        const [newUser] = await conn.query(sql, [name, email, password]);
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const sql = 'INSERT INTO USERS (NMUSER, EMAIL, PASSWORD) VALUES (?, ?, ?);';
+        const [newUser] = await conn.query(sql, [name, email, hashedPassword]);
 
         return newUser;
     } catch (error) {

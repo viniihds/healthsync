@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 
 const loginRouter = require('./routes/login');
 const homeRouter = require('./routes/home');
+const accountRouter = require('./routes/account');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/login', loginRouter);
 app.use('/home', homeRouter);
+app.use('/account', accountRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

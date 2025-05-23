@@ -1,0 +1,79 @@
+<!-- views/navbar.ejs -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<style>
+    .sidebar {
+        position: fixed;
+        height: 100%;
+        width: 200px;
+        background-color: #fff;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        z-index: 1000;
+        top: 0;
+        left: -220px; /* oculta inicialmente */
+        transition: left 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        padding-top: 30px;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px;
+        text-decoration: none;
+        color: black;
+        font-weight: 600;
+    }
+
+    .nav-item i {
+        font-size: 18px;
+    }
+
+    .nav-bottom {
+        margin-top: auto;
+        padding-bottom: 30px;
+    }
+
+    .menu-toggle {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 1100;
+        background: none;
+        border: none;
+    }
+</style>
+
+<!-- Ícone do menu -->
+<button class="menu-toggle" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i> Menu
+</button>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <a href="/home" class="nav-item"><i class="fas fa-home"></i> Home</a>
+    <a href="/history" class="nav-item"><i class="fas fa-history"></i> History</a>
+    <a href="/schedule" class="nav-item"><i class="fas fa-calendar-alt"></i> Schedule</a>
+    <a href="/metrics" class="nav-item"><i class="fas fa-chart-line"></i> Metrics</a>
+    <a href="/educational" class="nav-item"><i class="fas fa-tv"></i> Educational</a>
+
+    <div class="nav-bottom">
+        <a href="/account" class="nav-item"><i class="fas fa-user"></i> Account</a>
+        <a href="/logout" class="nav-item"><i class="fas fa-door-open"></i> Log out</a>
+    </div>
+</div>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+</script>
