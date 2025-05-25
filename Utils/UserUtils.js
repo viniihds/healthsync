@@ -20,7 +20,7 @@ const getUser = async ({ email, password }) => {
         const sql = 'SELECT CDUSER, NMUSER, EMAIL, PASSWORD FROM USERS WHERE EMAIL = ? AND PASSWORD = ?';
         const [userFound] = await connection.query(sql, [email, password]);
 
-        if (!userFound) {
+        if (!userFound || userFound.length === 0) {
             return 'Email or Password is incorrect';
         }
 
