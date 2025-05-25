@@ -1,0 +1,88 @@
+<%- include('navbar') %>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Agenda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="/stylesheets/schedule/default.css">
+    <link rel="stylesheet" href="/stylesheets/schedule/modal.css">
+</head>
+<body>
+<div class="navbar">
+    <div class="main-content"></div>
+</div>
+<div class="container">
+    <button class="add-btn" onclick="openModal()">+ Add</button>
+    <div class="grid">
+        <% medications.forEach(med => { %>
+            <div class="card">
+                <div class="card-header">
+                    <h2><%= med.name %></h2>
+                    <div class="icons">
+                        <span class="material-symbols-outlined" onclick='openModal(<%- JSON.stringify(med) %>)'>edit</span>
+                        <span class="material-symbols-outlined">delete</span>
+                    </div>
+                </div>
+                <p>Frequency: <%= med.frequency %></p>
+                <p>Quantity of days: <%= med.days %></p>
+                <p>First time: <%= med.firstTimeDate %> - <%= med.firstTimeDate %> </p>
+                <p>Next time: <%= med.nextTime %></p>
+            </div>
+        <% }); %>
+    </div>
+</div>
+<!-- Modal -->
+<div id="medModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <form id="medForm">
+            <div class="form-group">
+                <label for="name">Medicine:</label>
+                <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+                <label for="firstTime">First time:</label>
+                <input type="time" id="firstTime" name="firstTime" required />
+            </div>
+            <div class="form-group">
+                <label for="frequency">Frequency:</label>
+                <input type="text" id="frequency" name="frequency" required />
+            </div>
+            <div class="form-group">
+                <label for="days">Quantity of days:</label>
+                <input type="number" id="days" name="days" />
+            </div>
+            <button type="submit" class="save-btn">Save</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    const openModal = (med = null) => {
+        const modal = document.getElementById('medModal');
+        const form = document.getElementById('medForm');
+        modal.style.display = 'flex';
+        console.log(JSON.stringify(med, null, 2));
+        if (med) {
+            form.name.value = med.name;
+            form.firstTime.value = med.firstTime;
+            form.frequency.value = med.frequency;
+            form.days.value = med.days;
+        } else {
+            form.reset();
+        }
+    };
+
+    const closeModal = () => {
+        document.getElementById('medModal').style.display = "none";
+    };
+
+    window.onclick = event => {
+        const modal = document.getElementById('medModal');
+        if (event.target === modal) closeModal();
+    };
+</script>

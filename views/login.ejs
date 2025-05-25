@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,18 +8,23 @@
 </head>
 <body>
 <div class="container">
-    <div class="logo">
-        <img src="/images/logo.png" alt="Our logomark"/>
+    <div class="navbar">
+        <div class="logo">
+            <img src="/images/logo.png" alt="Our logomark"/>
+        </div>
     </div>
+    <% if (message) { %>
+        <div class="message"><%= message %></div>
+    <% } %>
     <div class="form-container">
         <div class="login">
             <h2>Login</h2>
             <form action="/login" method="POST">
                 <input type="hidden" name="type" id="type" value="1">
                 <label>E-mail</label>
-                <input type="email" placeholder="Enter email" name="email" alt="email field">
+                <input type="email" placeholder="Enter email" name="email" alt="email field" required>
                 <label>Password</label>
-                <input type="password" placeholder="Enter password" name="password" alt="password field">
+                <input type="password" placeholder="Enter password" name="password" alt="password field" required>
                 <button type="submit">Login</button>
             </form>
         </div>
@@ -29,11 +34,11 @@
             <form action="/login" method="POST">
                 <input type="hidden" name="type" id="type" value="2">
                 <label>Name</label>
-                <input type="text" placeholder="Enter name" name="name">
+                <input type="text" placeholder="Enter name" name="name" required>
                 <label>E-mail</label>
-                <input type="email" placeholder="Enter email" name="email" alt="email field">
+                <input type="email" placeholder="Enter email" name="email" alt="email field" required>
                 <label>Password</label>
-                <input type="password" placeholder="Enter password" name="password" alt="password field">
+                <input type="password" placeholder="Enter password" name="password" alt="password field" required>
                 <button type="submit">Sign up</button>
             </form>
         </div>

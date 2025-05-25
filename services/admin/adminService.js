@@ -1,5 +1,5 @@
-const { dbConnection } = require("../../db");
-const permissionEnum = require("../../enums/permissionEnum")
+const { dbConnection } = require('../../db');
+const permissionEnum = require('../../enums/permissionEnum')
 
 const getAdmin = async (user) => {
     const conn = await dbConnection();

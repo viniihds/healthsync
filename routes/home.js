@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { authMiddleware } = require('../utils/SessionUtils')
 
-router.get('/', (req, res) => {
+router.get('/', authMiddleware, (req, res) => {
     const pendingMeds = [
         { name: 'Paracetamol', date: '27/03', time: '11:55' },
         { name: 'Dipirona', date: '27/03', time: '15:30' }

@@ -1,33 +1,38 @@
 const express = require('express');
 const router = express.Router();
-
 const { getUser, createUser } = require('../Utils/UserUtils');
 
 const handleLogin = async(res, user) => {
-    const { userFound, token } = await getUser(user);
+    const userFound = await getUser(user);
 
-    if (!Array.isArray(userFound)) {
-        return res.status(404).json({ message: 'User not found' });
+    if (typeof userFound == 'string') {
+        return res.render('login', { message: 'No user found' });
     } else {
-        res.json(token);
+        global.user = userFound;
+        console.log('dwa');
     }
-}
+
+    res.redirect('/');
+};
 
 const handleRegistration = async(res, user) => {
-    const createdUser = await createUser(user);
+    const response = await createUser(user);
 
-    if (typeof createdUser == 'string' || !createdUser) {
-        return res.status(400).json({ message: createdUser });
+    if (typeof response == 'string' || !response) {
+        return res.redirect('login', { message: response });
+    } else {
+        console.log('adddcc');
+        global.user = response;
     }
-}
+
+    res.redirect('/');
+};
 
 router.get('/', (req, res, next) => {
-    res.render('login');
+    global.user = undefined;
+    res.render('login',  { message: '' });
 });
 
-/**
- * Mesma rota do cadastro
- */
 router.post('/', async(req, res, next) => {
     const user = req.body;
 
@@ -37,8 +42,6 @@ router.post('/', async(req, res, next) => {
     } else {
         await handleRegistration(res, user)
     }
-
-    res.redirect('home');
-})
+});
 
 module.exports = router;

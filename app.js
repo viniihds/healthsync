@@ -3,14 +3,14 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const session = require('express-session');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
-const loginRouter = require('./routes/login');
-const homeRouter = require('./routes/home');
 const accountRouter = require('./routes/account');
 const adminRouter = require('./routes/admin');
+const historyRouter = require('./routes/history');
+const homeRouter = require('./routes/home');
+const loginRouter = require('./routes/login');
+const saveRouter = require('./routes/save');
+const scheduleRouter = require('./routes/schedule');
 
 const app = express();
 
@@ -25,10 +25,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/login', loginRouter);
-app.use('/home', homeRouter);
-app.use('/account', accountRouter);
 app.use('/admin', adminRouter)
+app.use('/account', accountRouter);
+app.use('/history', historyRouter);
+app.use('/', homeRouter);
+app.use('/login', loginRouter);
+app.use('/save', saveRouter);
+app.use('/schedule', scheduleRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

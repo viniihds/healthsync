@@ -4,28 +4,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Account</title>
-    <link rel="stylesheet" href="/stylesheets/home.css">
+    <title>Conta</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #ffffff;
             margin: 0;
             padding: 0;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-        }
-        .menu-icon {
-            font-size: 24px;
-            margin-right: 10px;
-            cursor: pointer;
-        }
-        .header-title {
-            font-weight: bold;
-            font-size: 18px;
         }
         .logo-text span:last-child {
             color: #3cc66a;
@@ -50,13 +35,6 @@
             border-radius: 20px;
             background-color: #c8e0f1;
         }
-        .edit-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
         .save-btn {
             margin-top: 30px;
             padding: 10px;
@@ -70,39 +48,25 @@
     </style>
 </head>
 <body>
-<div class="navbar">
-    <div class="main-content" style="margin-left: 0;"></div>
-    <div class="logo">
-        <img src="/images/logo.png" alt="Our logomark"/>
-    </div>
-</div>
-
+<div class="main-content" style="margin-left: 0;"></div>
 <div class="form-container">
-    <form action="/save-account" method="POST">
+    <form action="/save" method="POST">
         <label for="name">Name</label>
         <div class="input-group">
-            <input type="text" id="name" name="name" value="<%= user.name %>" />
-            <span class="edit-icon">✎</span>
+            <input type="text" id="name" name="name" value="<%= global.NMUSER %> " required />
         </div>
-
         <label for="email">E-mail</label>
         <div class="input-group">
-            <input type="email" id="email" name="email" value="<%= user.email %>" />
-            <span class="edit-icon">✎</span>
+            <input type="email" id="email" name="email" value="<%= global.EMAIL %>" required />
         </div>
-
         <label for="password">Password</label>
         <div class="input-group">
-            <input type="password" id="password" name="password" value="<%= user.password %>" />
-            <span class="edit-icon">✎</span>
+            <input type="password" id="password" name="password" value="<%= global.PASSWORD %>" required />
         </div>
-
         <label for="cellphone">Cellphone</label>
         <div class="input-group">
-            <input type="tel" id="cellphone" name="cellphone" value="<%= user.cellphone %>" />
-            <span class="edit-icon">✎</span>
+            <input type="tel" id="cellphone" name="cellphone" value="<%= global.CELLPHONE ?? '' %>" />
         </div>
-
         <button type="submit" class="save-btn">Save</button>
     </form>
 </div>

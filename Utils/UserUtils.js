@@ -1,40 +1,39 @@
 const {dbConnection} = require('../db');
-const permissionEnum = require("../enums/permissionEnum");
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
-// const { JWT_SECRET } = require("./SessionUtils");
+const permissionEnum = require('../enums/permissionEnum');
 
 const checkIfExists = async (email, conn) => {
     const sql = 'SELECT 1 FROM USERS WHERE EMAIL = ?'
     const [userFound] = await conn.query(sql, [email]);
 
     return userFound.length > 0;
-}
+};
 
 const getUser = async ({ email, password }) => {
     const connection = await dbConnection();
 
     if(email === undefined || password === undefined) {
-        return 'Something went wrong while searching for your user';
+        console.error('email or password is undefined', password, email);
+        return 'Something is wrong with your email or password';
     }
 
     try {
-        const sql = 'SELECT CDUSER, NMUSER, PASSWORD FROM USERS WHERE EMAIL = ?';
-        const [userFound] = await connection.query(sql, [email]);
+        const sql = 'SELECT CDUSER, NMUSER, EMAIL, PASSWORD FROM USERS WHERE EMAIL = ? AND PASSWORD = ?';
+        const [userFound] = await connection.query(sql, [email, password]);
 
         if (!userFound) {
-            return;
+            return 'Email or Password is incorrect';
         }
 
-        const validPassword = await bcrypt.compare(password, userFound.at().PASSWORD);
+        console.log('user found', userFound.length);
 
-        if (!validPassword) return 'Senha incorreta';
-
-        return { userFound: userFound, token: jwt.sign({ id: email, username: userFound.NMUSER }, JWT_SECRET, { expiresIn: '1h' }) };
+        return userFound.at();
+    } catch (error) {
+        console.error('Error while trying to search your user. Error: ', error);
+        return 'Error while trying to search your user.';
     } finally {
         await connection.end();
     }
-}
+};
 
 const createUser = async ({ email, name, password }) => {
     const conn = await dbConnection();
@@ -47,16 +46,36 @@ const createUser = async ({ email, name, password }) => {
     try {
         const sql = 'INSERT INTO USERS (NMUSER, EMAIL, PASSWORD) VALUES (?, ?, ?);';
         const [newUser] = await conn.query(sql, [name, email, password]);
+        const userInfoSql = 'SELECT * FROM USERS WHERE CDUSER = ?;';
+        const [userInfo] = await conn.query(userInfoSql, [newUser.insertId]);
 
         await setUserPermission(email, password, permissionEnum.USER);
-        return newUser;
+
+        return userInfo;
     } catch (error) {
-        console.error('Error while crating user, Error:', error);
-        throw error;
+        console.error('Error while crating user, Error: ', error);
+        return 'Error while creating user';
     } finally {
         await conn.end();
     }
-}
+};
+
+const updateUser = async ({ cduser, email, name, password, cellphone }) => {
+    const conn = await dbConnection();
+
+    if (!cduser) {
+        return 'Something went wrong while trying to update your data';
+    }
+
+    const sql = 'UPDATE USERS SET EMAIL = ?, NMUSER = ?, PASSWORD = ?, CELLPHONE = ? WHERE CDUSER = ?';
+
+    try {
+        conn.query(sql, [email, name, password, cellphone]);
+    } catch (error) {
+        console.error('Error while updating user, Error: ', error);
+        return 'Error while updating user';
+    }
+};
 
 const setUserPermission = async (email, password, permission) => {
     const conn = await dbConnection();

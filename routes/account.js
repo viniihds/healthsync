@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { authMiddleware } = require('../Utils/SessionUtils.js');
 
-router.get('/', (req, res, next) => {
+router.get('/', authMiddleware, (req, res, next) => {
     const user = {
+        cdUser: 1,
         name: 'John Doe',
         email: 'john@example.com',
         password: '123456',

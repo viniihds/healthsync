@@ -1,0 +1,32 @@
+<%- include('navbar') %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/history.css">
+</head>
+<body>
+<div class="main-content" style="margin-left: 0;"></div>
+<div class="history-date">
+    <span class="material-icons">calendar_today</span>
+    <span>26/03/2025</span>
+</div>
+<div class="history-list">
+    <div class="history-item">
+        <span class="material-icons">check_circle</span>
+        You took the medicine <strong>Medicine</strong> at <strong>Time</strong> with a delay of <strong>Delay</strong>.
+    </div>
+    <div class="history-item">
+        <span class="material-icons">warning</span>
+        You didn’t take the medicine <strong>Medicine</strong> scheduled for <strong>Time</strong>.
+    </div>
+    <div class="history-item">
+        <span class="material-icons">check</span>
+        You took the medicine <strong>Medicine</strong> scheduled for <strong>Time</strong> on time.
+    </div>
+</div>
+</body>
+</html>
