@@ -11,7 +11,7 @@ router.post('/', authMiddleware, async(req, res, next) => {
         return res.render('account', { message: response });
     }
 
-    res.redirect('acount');
+    res.redirect('/account');
 });
 
 module.exports = router;

@@ -9,6 +9,7 @@ const adminRouter = require('./routes/admin');
 const historyRouter = require('./routes/history');
 const homeRouter = require('./routes/home');
 const loginRouter = require('./routes/login');
+const medicationRouter = require('./routes/medication');
 const saveRouter = require('./routes/save');
 const scheduleRouter = require('./routes/schedule');
 
@@ -30,6 +31,7 @@ app.use('/account', accountRouter);
 app.use('/history', historyRouter);
 app.use('/', homeRouter);
 app.use('/login', loginRouter);
+app.use('/medication', medicationRouter);
 app.use('/save', saveRouter);
 app.use('/schedule', scheduleRouter);
 

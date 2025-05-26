@@ -1,6 +1,8 @@
 const {dbConnection} = require('../db');
 const permissionEnum = require('../enums/permissionEnum');
 
+const userInfoSql = 'SELECT * FROM USERS WHERE CDUSER = ?;';
+
 const checkIfExists = async (email, conn) => {
     const sql = 'SELECT 1 FROM USERS WHERE EMAIL = ?'
     const [userFound] = await conn.query(sql, [email]);
@@ -12,21 +14,19 @@ const getUser = async ({ email, password }) => {
     const connection = await dbConnection();
 
     if(email === undefined || password === undefined) {
-        console.error('email or password is undefined', password, email);
+        console.error('Email or password is undefined', password, email);
         return 'Something is wrong with your email or password';
     }
 
     try {
-        const sql = 'SELECT CDUSER, NMUSER, EMAIL, PASSWORD FROM USERS WHERE EMAIL = ? AND PASSWORD = ?';
+        const sql = 'SELECT * FROM USERS WHERE EMAIL = ? AND PASSWORD = ?';
         const [userFound] = await connection.query(sql, [email, password]);
 
         if (!userFound || userFound.length === 0) {
             return 'Email or Password is incorrect';
         }
 
-        console.log('user found', userFound.length);
-
-        return userFound.at();
+        setGlobalUser(userFound.at());
     } catch (error) {
         console.error('Error while trying to search your user. Error: ', error);
         return 'Error while trying to search your user.';
@@ -46,12 +46,11 @@ const createUser = async ({ email, name, password }) => {
     try {
         const sql = 'INSERT INTO USERS (NMUSER, EMAIL, PASSWORD) VALUES (?, ?, ?);';
         const [newUser] = await conn.query(sql, [name, email, password]);
-        const userInfoSql = 'SELECT * FROM USERS WHERE CDUSER = ?;';
         const [userInfo] = await conn.query(userInfoSql, [newUser.insertId]);
 
-        await setUserPermission(email, password, permissionEnum.USER);
+        await setUserPermission(newUser.insertId, permissionEnum.USER);
 
-        return userInfo;
+        setGlobalUser(userInfo.at());
     } catch (error) {
         console.error('Error while crating user, Error: ', error);
         return 'Error while creating user';
@@ -60,51 +59,42 @@ const createUser = async ({ email, name, password }) => {
     }
 };
 
-const updateUser = async ({ cduser, email, name, password, cellphone }) => {
+const updateUser = async ({ email, name, password, cellphone }) => {
     const conn = await dbConnection();
+    const cdUser = global.user.CDUSER;
 
-    if (!cduser) {
+    if (!cdUser) {
         return 'Something went wrong while trying to update your data';
     }
 
     const sql = 'UPDATE USERS SET EMAIL = ?, NMUSER = ?, PASSWORD = ?, CELLPHONE = ? WHERE CDUSER = ?';
 
     try {
-        conn.query(sql, [email, name, password, cellphone]);
+        await conn.query(sql, [email, name, password, cellphone, cdUser]);
+        const [userInfo] = await conn.query(userInfoSql, [cdUser]);
+
+        setGlobalUser(userInfo.at());
     } catch (error) {
         console.error('Error while updating user, Error: ', error);
         return 'Error while updating user';
     }
 };
 
-const setUserPermission = async (email, password, permission) => {
+const setUserPermission = async (cdUser, permission) => {
     const conn = await dbConnection();
 
     try {
-        const cduser = await getCdUser(email, password);
-
         const sql = 'INSERT INTO USERPERMISSION(CDUSER, CDPERMISSION) VALUES (?, ?)'
-        await conn.query(sql, [cduser, permission]);
+        await conn.query(sql, [parseInt(cdUser), permission]);
     } catch (error) {
-        console.error('Error while setting admin permission, Error:', error);
+        console.error('Error while setting permission, Error:', error);
     } finally {
-        await conn.end()
+        await conn.end();
     }
-}
+};
 
-const getCdUser = async ( email, password ) => {
-    const conn = await dbConnection();
+const setGlobalUser = (user) => {
+    global.user = user;
+};
 
-    try {
-        const sql = 'SELECT CDUSER FROM USERS WHERE EMAIL = ? AND PASSWORD = ?;'
-        const [user] = await conn.query(sql, [email, password]);
-
-        return user[0].CDUSER;
-    } catch (error) {
-        console.error('Error while getting cduser, Error:', error);
-    } finally {
-        await conn.end()
-    }
-}
-
-module.exports = { createUser, getUser };
+module.exports = { createUser, getUser, updateUser };

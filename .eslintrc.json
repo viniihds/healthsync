@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "quotes": [
+      "error",
+      "single"
+    ] // Força o uso de aspas simples
+  }
+}

@@ -1,0 +1,128 @@
+<%- include('navbar') %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Categories</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 50px;
+            margin-bottom: 20px;
+        }
+        .add-btn {
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 0 6px rgba(0,0,0,0.1);
+        }
+        thead {
+            background-color: #1976d2;
+            color: white;
+        }
+        th, td {
+            padding: 12px 20px;
+            text-align: left;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .action-icons {
+            display: flex;
+            gap: 10px;
+        }
+        .material-icons {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="main-content" style="margin-left: 0;"></div>
+<div class="top-bar">
+    <h2>Categories</h2>
+    <button class="add-btn">
+        <span class="material-icons">add</span> Add
+    </button>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Cardiac</td>
+        <td class="action-icons">
+            <span class="material-icons">edit</span>
+            <span class="material-symbols-outlined">delete</span>
+        </td>
+    </tr>
+    <tr>
+        <td>Antibiotics</td>
+        <td class="action-icons">
+            <span class="material-icons">edit</span>
+            <span class="material-symbols-outlined">delete</span>
+        </td>
+    </tr>
+    <tr>
+        <td>Analgesics</td>
+        <td class="action-icons">
+            <span class="material-icons">edit</span>
+            <span class="material-symbols-outlined">delete</span>
+        </td>
+    </tr>
+    <tr>
+        <td>Antidepressants</td>
+        <td class="action-icons">
+            <span class="material-icons">edit</span>
+            <span class="material-icons">delete</span>
+        </td>
+    </tr>
+    <tr>
+        <td>Antihypertensives</td>
+        <td class="action-icons">
+            <span class="material-icons">edit</span>
+            <span class="material-icons">delete</span>
+        </td>
+    </tr>
+    <tr>
+        <td>Antidiabetics</td>
+        <td class="action-icons">
+            <span class="material-icons">edit</span>
+            <span class="material-icons">delete</span>
+        </td>
+    </tr>
+    <tr>
+        <td>Sedatives</td>
+        <td class="action-icons">
+            <span class="material-icons">edit</span>
+            <span class="material-icons">delete</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

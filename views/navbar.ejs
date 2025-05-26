@@ -36,7 +36,7 @@
         position: fixed;
         top: 0;
         left: -220px;
-        height: 95vh;
+        height: 93%;
         width: 200px;
         background-color: #fff;
         box-shadow: 2px 0 5px rgba(0,0,0,0.1);
@@ -65,16 +65,15 @@
         font-weight: 600;
     }
     .material-icons {
-        font-size: 20px;
-        color: inherit;
+        font-size: 20px !important;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        display: inline-block;
+        vertical-align: middle;
     }
     .nav-bottom {
         margin-top: auto;
-        padding-bottom: 30px;
-    }
-    .main-content {
-        margin-top: 40px;
-        padding: 30px;
     }
 </style>
 <div class="topbar">
@@ -102,6 +101,15 @@
         <a href="/educational" class="nav-item">
             <span class="material-icons">live_tv</span> Educacional
         </a>
+        <a href="/permissions" class="nav-item">
+            <span class="material-icons">person</span> Permições
+        </a>
+        <a href="/medication" class="nav-item">
+            <span class="material-icons">medical_services</span> Remédios
+        </a>
+        <a href="/categories" class="nav-item">
+            <span class="material-icons">home_health</span>Categorias
+        </a>
     </div>
     <div class="nav-bottom">
         <a href="/account" class="nav-item">
@@ -112,7 +120,6 @@
         </a>
     </div>
 </div>
-
 <script>
     const toggleSidebar = () => {
         const sidebar = document.getElementById('sidebar');

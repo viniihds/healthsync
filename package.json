@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "lint": "eslint ."
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -24,9 +25,12 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "@eslint/js": "^9.27.0",
+    "eslint": "^9.27.0",
+    "globals": "^16.2.0",
     "nodemon": "^3.1.9"
   },
-  "description": "Alunos: Vinicius Henrique da Silva, Guilherme Tamanini",
+  "description": "Alunos: Vinicius Henrique da Silva e Guilherme Tamanini",
   "main": "app.js",
   "repository": {
     "type": "git",

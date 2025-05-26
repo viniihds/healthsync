@@ -53,19 +53,19 @@
     <form action="/save" method="POST">
         <label for="name">Name</label>
         <div class="input-group">
-            <input type="text" id="name" name="name" value="<%= global.NMUSER %> " required />
+            <input type="text" id="name" name="name" value="<%= global.user.NMUSER %> " required />
         </div>
         <label for="email">E-mail</label>
         <div class="input-group">
-            <input type="email" id="email" name="email" value="<%= global.EMAIL %>" required />
+            <input type="email" id="email" name="email" value="<%= global.user.EMAIL %>" required />
         </div>
         <label for="password">Password</label>
         <div class="input-group">
-            <input type="password" id="password" name="password" value="<%= global.PASSWORD %>" required />
+            <input type="password" id="password" name="password" value="<%= global.user.PASSWORD %>" required />
         </div>
         <label for="cellphone">Cellphone</label>
         <div class="input-group">
-            <input type="tel" id="cellphone" name="cellphone" value="<%= global.CELLPHONE ?? '' %>" />
+            <input type="tel" id="cellphone" name="cellphone" pattern="[0-9]{10,11}" value="<%= global.user.CELLPHONE ?? '' %>" />
         </div>
         <button type="submit" class="save-btn">Save</button>
     </form>
