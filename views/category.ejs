@@ -4,10 +4,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Remédios</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -78,7 +78,7 @@
             font-size: 20px;
             cursor: pointer;
         }
-        input, select {
+        input {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -93,14 +93,12 @@
             border: none;
             border-radius: 15px;
             cursor: pointer;
-            width: 100%;
         }
     </style>
 </head>
 <body>
-<div class="main-content" style="margin-left: 0;"></div>
 <div class="top-bar">
-    <h2>Remédios</h2>
+    <h2>Categoria</h2>
     <button class="add-btn" onclick="openModal()">
         <span class="material-icons">add</span> Add
     </button>
@@ -109,74 +107,61 @@
     <thead>
     <tr>
         <th>Nome</th>
-        <th>Categoria</th>
         <th>Ações</th>
     </tr>
     </thead>
-    <tbody>
-    <% if (medications && medications.length > 0) { %>
-        <% medications.forEach(med => { %>
-            <tr id="<%= med.cdmedication %>">
-                <td><%= med.nmmedication %></td>
-                <td><%= med.nmcategory %></td>
+    <tbody id="med-tbody">
+    <% if (categories && categories.length > 0) { %>
+        <% categories.forEach(cat => { %>
+            <tr id="<%= cat.cdcategory %>">
+                <td><%= cat.nmcategory %></td>
                 <td class="action-icons">
-                    <span class="material-symbols-outlined" onclick="">edit</span>
-                    <span class="material-symbols-outlined" onclick="">delete</span>
+                    <span class="material-symbols-outlined" onclick='openModal(<%- JSON.stringify(cat) %>)'>edit</span>
+                    <span class="material-symbols-outlined" onclick=''>delete</span>
                 </td>
             </tr>
         <% }) %>
     <% } else { %>
         <tr>
-            <td colspan="2">Nenhum remédio cadastrado.</td>
+            <td colspan="2">Nenhuma categoria cadastrada .</td>
         </tr>
     <% } %>
     </tbody>
 </table>
-<div id="remedyModal" class="modal" style="display: none;">
+
+<!-- Modal -->
+<div id="categoryModal" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">×</span>
-        <h2>Adicionar Remédio</h2>
-        <form id="remedyForm" action="/remedios" method="POST">
-            <label for="name">Nome do Remédio</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="category">Categoria</label>
-            <select id="category" name="category" required>
-                <option value="">Selecione uma categoria</option>
-            </select>
-
-            <button type="submit" class="modal-btn">Salvar</button>
+        <h2>Nova categoria</h2>
+        <form id="categoryForm" action="/category/save" method="POST">
+            <label for="name">Nome</label>
+            <input type="hidden" name="cdcategory" id="category" value="-1">
+            <input type="text" name="nmcategory" id="name" required />
+            <button class="modal-btn" type="submit">Save</button>
         </form>
     </div>
 </div>
-</body>
-</html>
+
 <script>
-    const loadCategories = async () => {
-        try {
-            const response = await fetch('/category/fetchAll');
-            const categories = await response.json();
+    const openModal = (med = null) => {
+        const nameInput = document.getElementById('name');
+        const categoryInput = document.getElementById('category');
 
-            const select = document.getElementById('category');
-            select.innerHTML = '<option value="">Selecione uma categoria</option>';
+        document.getElementById('categoryModal').style.display = 'flex';
 
-            categories.forEach(cat => {
-                const option = document.createElement('option');
-                option.value = cat.cdcategory;
-                option.textContent = cat.nmcategory;
-                select.appendChild(option);
-            });
-        } catch (err) {
-            console.error('Erro ao carregar categorias:', err);
+        if (med == null) {
+            categoryInput.value = '-1';
+            nameInput.value = '';
+        } else {
+            categoryInput.value = med.cdcategory;
+            nameInput.value = med.nmcategory;
         }
     };
 
-    const openModal = () => {
-        document.getElementById('remedyModal').style.display = 'flex';
-        loadCategories();
-    };
-
     const closeModal = () => {
-        document.getElementById('remedyModal').style.display = 'none';
+        document.getElementById('categoryModal').style.display = 'none';
     };
 </script>
+</body>
+</html>

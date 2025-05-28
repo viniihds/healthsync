@@ -63,6 +63,7 @@ const updateUser = async ({ email, name, password, cellphone }) => {
     const conn = await dbConnection();
     const cdUser = global.user.CDUSER;
 
+    console.log('cellphone: ' + cellphone);
     if (!cdUser) {
         return 'Something went wrong while trying to update your data';
     }

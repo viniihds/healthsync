@@ -6,6 +6,7 @@ const logger = require('morgan');
 
 const accountRouter = require('./routes/account');
 const adminRouter = require('./routes/admin');
+const categoryRouter = require('./routes/category');
 const historyRouter = require('./routes/history');
 const homeRouter = require('./routes/home');
 const loginRouter = require('./routes/login');
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/admin', adminRouter)
 app.use('/account', accountRouter);
+app.use('/category', categoryRouter);
 app.use('/history', historyRouter);
 app.use('/', homeRouter);
 app.use('/login', loginRouter);
