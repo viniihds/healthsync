@@ -14,10 +14,15 @@ const handleLogin = async(res, user) => {
 
 const handleRegistration = async(res, user) => {
     const response = await createUser(user);
-
-    if (typeof response == 'string' || !response) {
-        return res.redirect('/login', { message: response });
+    console.log('auwqi')
+    if (typeof response == 'string') {
+        console.log('auwqi2')
+        console.log(JSON.stringify(response, null, 2))
+        res.render('login', { message: response });
+        return;
     }
+
+    console.log('teste')
 
     res.redirect('/home');
 };

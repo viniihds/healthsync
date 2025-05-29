@@ -94,6 +94,9 @@
             border-radius: 15px;
             cursor: pointer;
         }
+        .material-symbols-outlined {
+            cursor: pointer
+        }
     </style>
 </head>
 <body>
@@ -117,7 +120,7 @@
                 <td><%= cat.nmcategory %></td>
                 <td class="action-icons">
                     <span class="material-symbols-outlined" onclick='openModal(<%- JSON.stringify(cat) %>)'>edit</span>
-                    <span class="material-symbols-outlined" onclick=''>delete</span>
+                    <span class="material-symbols-outlined" onclick='deleteCategory("<%= cat.cdcategory %>")'>delete</span>
                 </td>
             </tr>
         <% }) %>
@@ -134,10 +137,10 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal()">×</span>
         <h2>Nova categoria</h2>
-        <form id="categoryForm" action="/category/save" method="POST">
-            <label for="name">Nome</label>
-            <input type="hidden" name="cdcategory" id="category" value="-1">
-            <input type="text" name="nmcategory" id="name" required />
+        <form id="categoryForm" action="/category" method="POST">
+            <input type="hidden" name="cdcategory" id="cdcategory" value="-1">
+            <label for="nmcategory">Nome</label>
+            <input type="text" name="nmcategory" id="nmcategory" required />
             <button class="modal-btn" type="submit">Save</button>
         </form>
     </div>
@@ -145,11 +148,10 @@
 
 <script>
     const openModal = (med = null) => {
-        const nameInput = document.getElementById('name');
-        const categoryInput = document.getElementById('category');
+        const nameInput = document.getElementById('nmcategory');
+        const categoryInput = document.getElementById('cdcategory');
 
         document.getElementById('categoryModal').style.display = 'flex';
-
         if (med == null) {
             categoryInput.value = '-1';
             nameInput.value = '';
@@ -162,6 +164,25 @@
     const closeModal = () => {
         document.getElementById('categoryModal').style.display = 'none';
     };
+
+    const deleteCategory = async (cdcategory) => {
+        if (!confirm('Tem certeza que deseja excluir esta categoria?')) return;
+        console.log('cat: '+cdcategory)
+        try {
+            await fetch('/category', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ cdcategory })
+            });
+
+            document.getElementById(cdcategory)?.remove();
+        } catch (e) {
+            alert('A categoria possui remédios relacionados');
+            console.error('Error: ', e);
+        }
+    }
 </script>
 </body>
 </html>

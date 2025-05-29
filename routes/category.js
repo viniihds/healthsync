@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { authMiddleware } = require('../Utils/SessionUtils.js');
-const { getAllCategories } = require("../Utils/CategoryUtils");
+const { getAllCategories, createCategory, deleteCategory } = require("../Utils/CategoryUtils");
 
 router.get('/', authMiddleware, async(req, res, next) => {
     const categories = await getAllCategories();
@@ -13,10 +13,23 @@ router.get('/fetchAll', authMiddleware, async(req, res, next) => {
     res.json(await getAllCategories());
 })
 
-router.post('/save', authMiddleware, async(req, res, next) => {
+router.post('/', authMiddleware, async(req, res, next) => {
     const category = req.body;
-    console.log(JSON.stringify(category, null, 2));
-    res.redirect();
+
+    await createCategory(category);
+
+    res.redirect('/category');
+});
+
+router.delete('/', authMiddleware, async(req, res, next) => {
+    const cdcategory = req.body.cdcategory;
+    const response = await deleteCategory(cdcategory)
+
+    if (typeof response == 'string') {
+        return res.sendStatus(500);
+    }
+
+    res.sendStatus(200);
 })
 
 module.exports = router;
