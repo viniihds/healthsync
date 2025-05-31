@@ -98,4 +98,33 @@ const setGlobalUser = (user) => {
     global.user = user;
 };
 
-module.exports = { createUser, getUser, updateUser };
+const getAllUsers = async () => {
+    const conn = await dbConnection();
+
+    try {
+        const sql = 'SELECT USERS.CDUSER, NMUSER, IDPERMISSION FROM USERS INNER JOIN USERPERMISSION ON USERS.CDUSER = USERPERMISSION.CDUSER INNER JOIN PERMISSION ON PERMISSION.CDPERMISSION = USERPERMISSION.CDPERMISSION';
+        const [users] = await conn.query(sql);
+
+        return users;
+    } catch (error) {
+        console.error('Error while trying to search users. Error: ', error);
+        return 'Error while trying to search users.';
+    } finally {
+        await conn.end();
+    }
+}
+
+const changeUserPermission = async (cdUser, permission) => {
+    const conn = await dbConnection();
+
+    try {
+        const sql = 'UPDATE USERPERMISSION SET CDPERMISSION = ? WHERE CDUSER = ?;';
+        await conn.query(sql, [permission, cdUser]);
+    } catch (error) {
+        console.error('Error while updating user, Error: ', error);
+    } finally {
+        await conn.end();
+    }
+}
+
+module.exports = { createUser, getUser, updateUser, getAllUsers, changeUserPermission };

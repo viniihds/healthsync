@@ -1,0 +1,128 @@
+<%- include('navbar') %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Permissions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #fff;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #ccc;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            height: 24px;
+            margin-right: 10px;
+        }
+        .title {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        table {
+            width: 80%;
+            margin: 2rem auto;
+            border-collapse: collapse;
+            background-color: #f2f2f2;
+        }
+        thead {
+            background-color: #2f76a1;
+            color: white;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 22px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0;
+            right: 0; bottom: 0;
+            background-color: black;
+            border-radius: 34px;
+            transition: .4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            border-radius: 50%;
+            transition: .4s;
+        }
+        input:checked + .slider:before {
+            transform: translateX(18px);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="title">☰ Permissions</div>
+    <div class="logo">
+        <img src="https://img.icons8.com/ios-filled/50/000000/plus-math.png" alt="Add">
+        <span style="color: #2f76a1; font-weight: 600;">Health</span><span style="color: #48c774; font-weight: 600;">Sync</span>
+    </div>
+</header>
+
+<table>
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Admin</th>
+    </tr>
+    </thead>
+    <tbody>
+        <% users.forEach(user => { %>
+            <tr id="<%= user.CDUSER %>">
+                <td><%= user.NMUSER %></td>
+                <td>
+                    <label class="switch">
+                        <input type="checkbox" <%= user.IDPERMISSION === 2 ? 'checked' : '' %> onchange="changePermission('<%= user.CDUSER %>', <%= user.IDPERMISSION %>)">
+                        <span class="slider"></span>
+                    </label>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+</body>
+</html>
+
+<script>
+    const changePermission = (cduser, permission) => {
+        fetch(`/permissions/${cduser}/${permission}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+    }
+</script>

@@ -13,6 +13,7 @@ const loginRouter = require('./routes/login');
 const medicationRouter = require('./routes/medication');
 const saveRouter = require('./routes/save');
 const scheduleRouter = require('./routes/schedule');
+const permissionsRouter = require('./routes/permissions')
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use('/login', loginRouter);
 app.use('/medication', medicationRouter);
 app.use('/save', saveRouter);
 app.use('/schedule', scheduleRouter);
+app.use('/permissions', permissionsRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
