@@ -152,6 +152,7 @@
         const categoryInput = document.getElementById('cdcategory');
 
         document.getElementById('categoryModal').style.display = 'flex';
+
         if (med == null) {
             categoryInput.value = '-1';
             nameInput.value = '';
@@ -167,9 +168,9 @@
 
     const deleteCategory = async (cdcategory) => {
         if (!confirm('Tem certeza que deseja excluir esta categoria?')) return;
-        console.log('cat: '+cdcategory)
+
         try {
-            await fetch('/category', {
+            const response = await fetch('/category', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -177,12 +178,20 @@
                 body: JSON.stringify({ cdcategory })
             });
 
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                alert(errorMessage || 'Erro ao excluir a categoria');
+                return;
+            }
+
             document.getElementById(cdcategory)?.remove();
+
         } catch (e) {
-            alert('A categoria possui remédios relacionados');
+            alert('Erro de conexão ao excluir a categoria');
             console.error('Error: ', e);
         }
-    }
+    };
+
 </script>
 </body>
 </html>

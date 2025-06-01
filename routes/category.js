@@ -23,13 +23,13 @@ router.post('/', authMiddleware, async(req, res, next) => {
 
 router.delete('/', authMiddleware, async(req, res, next) => {
     const cdcategory = req.body.cdcategory;
-    const response = await deleteCategory(cdcategory)
+    const response = await deleteCategory(cdcategory);
 
-    if (typeof response == 'string') {
-        return res.sendStatus(500);
+    if (typeof response === 'string') {
+        return res.status(409).send(response);
     }
 
     res.sendStatus(200);
-})
+});
 
 module.exports = router;

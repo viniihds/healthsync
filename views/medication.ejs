@@ -95,6 +95,9 @@
             cursor: pointer;
             width: 100%;
         }
+        span {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -121,7 +124,7 @@
                 <td><%= med.nmcategory %></td>
                 <td class="action-icons">
                     <span class="material-symbols-outlined" onclick='openModal(<%- JSON.stringify(med) %>)'>edit</span>
-                    <span class="material-symbols-outlined" onclick="">delete</span>
+                    <span class="material-symbols-outlined" onclick='deleteMedication(<%- JSON.stringify(med.cdmedication) %>)'>delete</span>
                 </td>
             </tr>
         <% }) %>
@@ -137,8 +140,9 @@
         <span class="close" onclick="closeModal()">×</span>
         <h2>Adicionar Remédio</h2>
         <form id="remedyForm" action="/medication" method="POST">
+            <input type="hidden" name="cdmedication" id="cdmedication" value="-1">
             <label for="name">Nome do Remédio</label>
-            <input type="text" id="name" name="nmmedication" required>
+            <input type="text" id="nmmedication" name="nmmedication" required>
 
             <label for="category">Categoria</label>
             <select id="category" name="category" required>
@@ -179,15 +183,36 @@
         const medicationInput = document.getElementById('cdmedication');
 
         document.getElementById('remedyModal').style.display = 'flex';
+
         if (med == null) {
             medicationInput.value = '-1';
             nameInput.value = '';
         } else {
-            medicationInput.value = med.cdcategory;
+            medicationInput.value = med.cdmedication;
             nameInput.value = med.nmmedication;
             select.value = med.cdcategory;
         }
     };
+
+    const deleteMedication = async med => {
+        if (!confirm('Tem certeza que deseja excluir esse remédio')) return;
+
+        try {
+            await fetch('/medication', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ cdmedication: med })
+            });
+
+            document.getElementById(med)?.remove();
+        } catch (e) {
+            alert('Erro de conexão ao excluir a categoria');
+            console.error('Error: ', e);
+        }
+    };
+
     const closeModal = () => {
         document.getElementById('remedyModal').style.display = 'none';
     };
